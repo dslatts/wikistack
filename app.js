@@ -35,5 +35,14 @@ models.User.sync({})
 app.use('/wiki', wikiRouter);
 
 app.get('/', (req, res, next) => {
-  res.render('index');
+
+  models.Page.findAll({
+    attributes: ['title', 'urlTitle']
+  })
+  .then((pages) => {
+    res.render('index', {
+      pages: pages
+    });
+  })
+  .catch(console.error);
 });

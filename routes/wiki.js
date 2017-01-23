@@ -5,8 +5,6 @@ const User = models.User;
 
 module.exports = router;
 
-
-
 router.get('/', (req, res, next) => {
   res.redirect('/');
 });
@@ -20,9 +18,23 @@ router.post('/', (req, res, next) => {
   })
 
   page.save()
-  .then((result) => {res.json(result)});
+    .then((savedPage) => {res.redirect(savedPage.route)})
+    .catch(next);
 });
 
 router.get('/add', (req, res, next) => {
 res.render('addpage');
+});
+
+router.get('/:urlTitle', (req, res, next) => {
+
+  Page.findOne({
+    where: { urlTitle: req.params.urlTitle }
+  })
+  .then((foundPage) => {
+    res.render('wikipage', {
+      page: foundPage
+    })
+  })
+  .catch(next);
 });
