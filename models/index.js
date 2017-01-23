@@ -10,8 +10,15 @@ const Page = db.define('page', {
 }, {
   getterMethods: {
     route: function(){ return '/wiki/' + this.urlTitle; }
+  },
+
+  hooks: {
+    beforeValidate: (page) => {
+      page.urlTitle = page.title ? page.title.replace(/\s+/g, '_').replace(/\W/g, '') : Math.random().toString(36).substring(2, 7);
+      }
+    }
   }
-});
+);
 
 const User = db.define('user', {
   name: { type: Sequelize.STRING, allowNull: false },

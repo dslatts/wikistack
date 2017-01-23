@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 const app = express();
 const models = require('./models');
+const wikiRouter = require('./routes/wiki');
 
 //Middleware
 
@@ -30,6 +31,8 @@ models.User.sync({})
     app.listen(3000, () => console.log('listening on port 3000'));
   }).
   catch(console.error);
+
+app.use('/wiki', wikiRouter);
 
 app.get('/', (req, res, next) => {
   res.render('index');
