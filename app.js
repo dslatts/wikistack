@@ -23,9 +23,9 @@ const env = nunjucks.configure('views', {noCache: true});
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
 
-models.User.sync({})
+models.User.sync({force: true})
   .then(function(){
-    return models.Page.sync({});
+    return models.Page.sync({force: true});
   })
   .then(function(){
     app.listen(3000, () => console.log('listening on port 3000'));
